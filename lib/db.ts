@@ -3,7 +3,7 @@ import path from "path";
 import { newId, now } from "./utils";
 import { AGENT_MODEL_MAP, type AgentName } from "./policy";
 
-const DB_PATH = path.join(process.cwd(), "ms.db");
+const DB_PATH = process.env.DB_PATH ?? path.join(process.cwd(), "ms.db");
 
 let _db: Database.Database | null = null;
 
