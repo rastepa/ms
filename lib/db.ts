@@ -255,6 +255,17 @@ export function updateAgentStatus(id: string, status: AgentStatus): void {
   getDb().prepare("UPDATE agents SET status=? WHERE id=?").run(status, id);
 }
 
+export function createAgent(data: Partial<Agent> & { name: string; role: string; model: string }): Agent {
+  const db = getDb();
+  const id = newId();
+  const ts = now();
+  db.prepare(`
+    INSERT OR IGNORE INTO agents (id, name, role, model, status, description, capabilities, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(id, data.name, data.role, data.model, data.status ?? "idle", data.description ?? null, data.capabilities ?? "[]", ts);
+  return (db.prepare("SELECT * FROM agents WHERE name = ?").get(data.name) as Agent);
+}
+
 // ─── Project queries ──────────────────────────────────────────────────────────
 
 export function getAllProjects(): Project[] {
