@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
+import Link from "next/link";
 import type { Project, Agent } from "@/lib/db";
 
 const statusColors: Record<string, string> = {
@@ -137,7 +138,7 @@ export default function ProjectsPage() {
               <div className="flex items-start gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm font-medium text-white">{p.name}</p>
+                    <Link href={`/projects/${p.id}`} className="text-sm font-medium text-white hover:text-violet-300 transition-colors">{p.name}</Link>
                     <span className={`text-[11px] font-medium px-2 py-0.5 rounded-full capitalize ${statusColors[p.status]}`}>{p.status}</span>
                     <span className="text-[11px] text-gray-500 capitalize">{p.priority}</span>
                   </div>
